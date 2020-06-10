@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Query List</title>
+
+	<link rel="stylesheet" href="teacher.css">
+
+<script type="text/javascript">
+
+	function redirect_to_answerQuery(pk) {
+ window.location.href = "http://localhost:8080/frontend/answerQuery.html?pk="+pk;
+}
+
+  var xhttp = new XMLHttpRequest();
+  var myObj;
+ xhttp.onreadystatechange = function() {
+  	console.log(this.readyState);
+  	 console.log(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+myObj= JSON.parse(this.responseText);
+console.log(myObj);
+console.table(myObj);
+    
+    putdata_intotable(myObj);
+    console.log(myObj);
+     }
+  };
+xhttp.open("GET", "http://127.0.0.1:8000/queryList/", true);
+ xhttp.send();
+
+
+
+
+
+function putdata_intotable(myObj){
+var table_data="";
+length=myObj.length/2
+document.getElementById("queryCount").innerHTML=length;
+for(var i = 0; i <length; i++) {
+    table_data+='<tr>';
+    table_data+=  '<td>'
+    
+    +myObj[i].first_name+' '+myObj[i].last_name+'</td><td>'+
+    myObj[i].username+'</td><td>'
+    +myObj[i].section+'</td><td>'
+    +myObj[i].branch+'</td><td>'
+    +myObj[i].email+'</td><td>'
+    +myObj[i].phone_no+'</td><td>'
+    +myObj[i+length].date+'</td><td>'
+    +myObj[i+length].queryStatus+'</td>';
+
+   
+    table_data+= '<td><button name="answerBtn" class="answerBtn" type="button" onclick="redirect_to_answerQuery('+myObj[i].id+')">Answer Query</button> </td></tr>';
+    }
+    document.getElementById("tbody").innerHTML = table_data;
+}
+
+
+
+
+</script>
+
+</head>
+<body>
+
+	<h1>List of students who raised Queries</h1><br>
+
+<span><h2 >Total number of pending Queries : <span id="queryCount">0</span></h2>
+<a onclick="window.history.back()" class="button" style="vertical-align:middle"><span> Back</span></a><br><br>
+	<table id= "customers">
+ 	<tr>
+ 		    
+ 		<th>Student name</th>
+    <th>Username</th>
+ 		<th>Section</th>
+ 		<th>Branch</th>
+ 		<th>Email Id</th>
+ 		<th>Phone No.</th>
+ 		<th>Date/time </th>
+ 		
+    <th>Query Status</th>
+    <th>Answer Query </th>
+ 
+ 	</tr>
+<tbody id="tbody"></tbody>
+      
+
+ 				
+		
+	</table>
+
+</body>
+</html>

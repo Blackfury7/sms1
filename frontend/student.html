@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student</title>
+  <link rel="stylesheet" href="teacher.css">
+
+	<script type="text/javascript">
+		
+		// var ob=$_GET["mj"];
+		// console.log(ob);
+		var str=window.location.href;
+
+    function updateQuery(){
+
+
+    window.location.href = "http://localhost:8080/frontend/updateQuery.html?username="+username;
+
+    }
+
+    function raiseQuery(){
+
+
+    window.location.href = "http://localhost:8080/frontend/addQuery.html?username="+username;
+
+    }
+
+   
+    
+    console.log(typeof document.location);
+    console.log(typeof window.location);
+    console.log(typeof window.location.href);
+    console.log(str);
+    
+    
+    var username = str.split('=')[1];
+ 
+  console.log(username);
+	
+		
+		var myObj=JSON.stringify({"username":username});
+		
+  var xhttp = new XMLHttpRequest();
+  
+
+
+
+
+
+
+  xhttp.onreadystatechange = function() {
+  	console.log(this.readyState);
+  	 console.log(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+
+   var a = JSON.parse(this.responseText);
+
+   
+    
+
+
+var name=a[0].first_name+' '+a[0].last_name;
+alert("Wellcome "+name);
+console.log(a.length)
+    document.getElementById("name").innerHTML=name;
+    document.getElementById("user").innerHTML=name;
+
+
+    document.getElementById("roll_no").innerHTML=a[0].roll_no;
+    document.getElementById("username").innerHTML=a[0].username;
+    document.getElementById("section").innerHTML=a[0].section;
+    document.getElementById("branch").innerHTML=a[0].branch;
+    document.getElementById("email").innerHTML=a[0].email;
+    document.getElementById("phone_no").innerHTML=a[0].phone_no;
+    
+    if (a.length > 1){
+      
+    document.getElementById("queryStatus").innerHTML=a[1][0].queryStatus;
+    document.getElementById("answer").innerHTML=a[1][0].answer;
+  }
+
+    
+    
+      
+    }
+  };
+
+
+console.log(myObj);
+console.log(typeof(myObj));
+
+
+
+  xhttp.open("POST", "http://127.0.0.1:8000/studentDashboard/", true);
+  xhttp.send(myObj);
+
+
+
+
+
+
+
+	</script>
+</head>
+
+
+
+<body>
+<h1 >Welcome </h1><h1 id="user">Student</h1>
+
+
+<br><br>
+ <a onclick="raiseQuery()" id="addQuery" class="button1 button2" style="vertical-align:middle"><span>Raise Query</span></a> 
+
+<a href="login.html" class="button" style="vertical-align:middle"><span> Logout</span></a> 
+<a onclick="updateQuery()" id="update" class="button1 button2" style="vertical-align:middle"><span>Update Query</span></a><br><br><br>
+
+
+
+
+<div>
+Name :<div id="name">Name will appear here</div><br>
+Roll No. :<div id="roll_no">roll no</div><br>
+Username :<div id="username">username</div><br>
+Section :<div id="section">section</div><br>
+Branch :<div id="branch">branch</div><br>
+Email :<div id="email">email</div><br>
+Phone No. :<div id="phone_no">phone no</div><br>
+Query Status: <div id="queryStatus">None</div><br>
+
+Answer to the Query : <p id="answer">None</p><br>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

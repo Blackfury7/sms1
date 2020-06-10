@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+</style>
+
+<script type="text/javascript">
+
+  var str=window.location.href;
+var pk = str.split('=')[1];
+
+
+
+  var xhtt = new XMLHttpRequest();
+  ID=JSON.stringify({"pk" : pk})
+  
+ xhtt.onreadystatechange = function() {
+    console.log(this.readyState);
+     console.log(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+ var myObj= JSON.parse(this.responseText);
+document.getElementById("topic").innerHtml =myObj[0].subject;
+document.getElementById("query").innerHtml=myObj[0].question;
+
+    // console.log(myObj);
+    console.log(myObj[0].subject);
+    console.log(myObj[0].question);
+     }
+  };
+xhtt.open("POST", "http://127.0.0.1:8000/queryDetail/", true);
+ xhtt.send(ID);
+
+
+
+
+
+
+
+
+
+
+function answerQuery(){
+  var xhttp = new XMLHttpRequest();
+  var a;
+  var answer = document.getElementById("answer");
+xhttp.onreadystatechange = function() {
+    console.log(this.readyState);
+     console.log(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+
+     
+    a = JSON.parse(this.responseText);
+    
+    
+    redirect_to_new_page(a);
+    
+      
+    }
+  };
+
+ 
+  
+     var myJSON = JSON.stringify({ "pk" : pk , "answer": answer });
+
+   
+
+
+
+
+  xhttp.open("POST", "http://127.0.0.1:8000/addQueryAnswer/", true);
+  xhttp.send(myJSON);
+
+
+
+  console.log(a);
+  
+  function redirect_to_new_page(a){
+ 
+alert(a);
+
+
+    window.location.href = "http://localhost:8080/frontend/queryList.html";
+}
+}
+
+  
+
+  
+</script>
+
+
+</head>
+<body>
+
+<h3>Query Form</h3>
+
+<div class="container">
+  
+    <span><l>Subject of the Query : </l>
+    <p id="topic" name="subject" >subject</p></span>
+
+   
+    
+
+    <label for="question">Query :</label>
+    <p id="query" name="question"  style="height:200px">question</p>
+<label for="answer">Answer : </label>
+    <textarea id="answer" name="answer" placeholder="Answer to the query.." style="height:200px"></textarea>
+
+
+
+    <input type="submit" value="Submit" onclick="answerQuery()">
+  
+</div>
+
+</body>
+</html>

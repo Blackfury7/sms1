@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+
+
+<script>
+
+    
+
+function loadDoc(){
+  var xhttp = new XMLHttpRequest();
+  var a;
+
+
+
+
+
+
+  xhttp.onreadystatechange = function() {
+  	console.log(this.readyState);
+  	 console.log(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+
+    a = JSON.parse(this.responseText);
+    
+    alert(a);
+    redirect_to_new_page(a,username);
+    
+      
+    }
+  };
+var username=document.getElementById("username").value;
+	var password=document.querySelector('#password').value;
+
+ 	
+ 	   var myJSON = JSON.stringify({ "username": username , "password": password });
+
+   
+
+// console.log(myJSON);
+// console.log(typeof(myJSON));
+
+
+
+  xhttp.open("POST", "http://127.0.0.1:8000/", true);
+  xhttp.send(myJSON);
+
+
+
+	console.log(a);
+  function redirect_to_new_page(a,username){
+  if(a=="Wellcome Teacher"){
+console.log('Wellcome Teacher');
+  	window.location.href = "http://localhost:8080/frontend/teacher.html";
+  }
+
+  if(a=="Wellcome Student"){
+
+  	window.location.href = "http://localhost:8080/frontend/student.html?username="+username;
+}
+}
+}
+
+</script>
+	
+</head>
+
+
+
+
+
+
+
+
+	<title>login_page</title>
+
+<body>
+
+	<h1>LOGIN PAGE</h1>
+
+	<div id="demo" class="input">
+		username:<input type="text" id="username" name="username" ><br><br>
+		password:<input type ="text" id="password" name="password"><br>
+			<button type="button" onclick="loadDoc()">submit</button>
+	</div>
+	
+	
+</body>
+</html>

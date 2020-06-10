@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Student</title>
+	<link rel="stylesheet" href="teacher.css">
+
+	<script type="text/javascript" scr="addStudent.js">
+		
+
+
+
+
+
+console.log("js file is opened");
+
+function addStudent(){
+  
+  var a;
+
+
+var xhttp = new XMLHttpRequest();
+
+
+
+  xhttp.onreadystatechange = function() {
+  	console.log(this.readyState);
+  	 console.log(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+
+      document.getElementById("demo").innerHTML = this.responseText;
+    a = JSON.parse(this.responseText);
+    // alert(a);
+    // redirect_to_new_page(a);
+    console.log(a);
+    
+       alert(a);
+    if(a=="Student Added Successfully")
+    {
+      window.location = "http://localhost:8080/frontend/teacher.html";
+      
+    }
+    }
+  };
+
+
+var first_name=document.getElementById("first_name").value;
+var last_name=document.querySelector('#last_name').value;
+var section=document.getElementById("section").value;
+var branch=document.getElementById("branch").value;
+var email=document.getElementById("email").value;
+var phone_no=document.getElementById("phone_no").value;
+
+// console.log(username.value);
+// console.log(password.value);
+
+ 	
+ 	   var myJSON = JSON.stringify({ "first_name": first_name, "last_name":last_name ,"section": section,"branch":branch,"email":email, "phone_no":phone_no });
+
+
+console.log(myJSON);
+console.log(typeof(myJSON));
+
+
+
+  xhttp.open("POST", "http://127.0.0.1:8000/addStudent/", true);
+  xhttp.send(myJSON);
+
+ 
+
+
+}
+
+
+
+
+
+
+	</script>
+	
+
+	<!-- <link rel="stylesheet" href="addStudent.css"> -->
+	
+</head>
+<body>
+
+		<h1>Add Student </h1>
+
+
+			
+		<div id="addStudentDetails">
+			
+				
+				<label for="first_name">First name :</label>
+				<input id="first_name" type="text" name="first_name" placeholder="First name" required><br><br><br>
+			
+			
+				<label for="last-name">Last name :</label>
+				<input id ="last_name" type="text" name="last_name" placeholder="Last Name" ><br><br>
+
+				<label for="section">Section :</label>
+				<input id="section" type="text" name="section" placeholder="section" required><br><br><br>
+			
+
+			<label for="branch">Branch :</label>
+				<input id="branch" type="text" name="branch" placeholder="branch" required><br><br><br>
+			
+
+				<label for="email">Email Id :</label>
+					<input id="email" type="email" name="email" placeholder="xyz@gmail.com" required><br><br><br>
+
+
+			<label for="phone_no">Phone No. :</label>
+				<input id="phone_no" type="text" name="First-name" placeholder="enter 10 digit phone number" required><br><br><br>
+
+				</div>
+			
+				<label for="agree">Have you check the above details are correct?</label>
+				<input type="checkbox" name="agree" required><br><br><br>
+				
+
+				
+					
+					<button type="button" onclick= "addStudent()" >SUBMIT</button>
+					<a onclick="window.history.back()" class="button" style="vertical-align:middle"><span> Back</span></a>
+
+
+
+
+</div>
+
+
+</body>
+</html>
