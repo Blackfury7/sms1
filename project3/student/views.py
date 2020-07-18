@@ -14,20 +14,20 @@ def studentDashboard(request):
 		body=request.body.decode('utf-8')
 		data=json.loads(body)
 		print(data)
-		username=data["username"]
+		id=data["id"]
 
-		a=student.objects.filter(username=username)
-		b=list(a.values())
-		print(b)
+		student_details=list(student.objects.filter(id=id).values('id','first_name','last_name','username','email','phone_no','section','branch'))
 
-
-		c=query.objects.filter(student__username = username)
-		print(c.values())
-		if c.count()==1:
-			b.append(list(c.values()))
+		print(student_details)
 
 
-	return JsonResponse(b,safe=False)
+		# c=query.objects.filter(student_id = id)
+		# print(c.values())
+		# if c.count()==1:
+		# 	b.append(list(c.values()))
+
+
+	return JsonResponse(student_details,safe=False)
 
 
 

@@ -9,34 +9,24 @@ from . models import teacher,student
 def login(request):
 	
 	if request.method =="POST":
-		# print(request.body)
-		body=request.body.decode('utf-8')
-		data=json.loads(body)
+		print(request.body)
+		
+		data=json.loads(request.body)
 		username=data["username"]
 		password=data["password"]
-
-		a=student.objects.filter(username=username).filter(status="Active")
-		b=teacher.objects.filter(username=username)
 		print(data)
+		a=student.objects.filter(username=username,password=password,status="Active")
+		b=teacher.objects.filter(username=username,password=password,status="Active")
+		if a.exists():
+			message = json.dumps({"id":a[0].id,
+			"type":"student"})
+		elif b.exists():
+			message = json.dumps({"id":b[0].id,
+			"type":"teacher"})
+			
+		else:
+			message='{"type" : "invalid details"}'
 
-		message = "wrong username"
-		if a.count()==1:
-			print(a)
-			if a.filter(password=password).count()==1:
-				message = "Wellcome Student"
-			else:
-				message = "wrong password"
-
-
-		if b.count()==1:
-			if b.filter(password=password).count()==1:
-				message = "Wellcome Teacher"
-			else:
-				message = "wrong password"
-
-
-
-		
 		return JsonResponse(message,safe=False)
 
 

@@ -16,8 +16,6 @@ class student(models.Model):
 	phone_no = models.CharField(max_length = 20, default =" ")
 
 
-	def __str__(self):
-		return self.username
 
 
 
@@ -29,12 +27,10 @@ class teacher(models.Model):
 	username = models.CharField(max_length = 200)
 	first_name = models.CharField(max_length = 200)
 	last_name = models.CharField(max_length = 200)
+	status = models.CharField(max_length = 20, default = 'Active')
 	department = models.CharField(max_length = 20)
 	email = models.CharField(max_length = 200)
 	password = models.CharField(max_length = 200)
-
-	def __str__(self):
-		return self.username
 
 
 
